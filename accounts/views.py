@@ -1,10 +1,11 @@
-from base64 import urlsafe_b64encode
 from .serializers import *
 from .forms import *
 
+from datetime import timedelta
+
 from django.db.models import Q
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -98,6 +99,11 @@ class ResetPasswordView(APIView):
         uidb64 = kwargs.get('uidb64')
         token = kwargs.get('token')
         try:
+            password_reset_token = PasswordResetToken.objects.get(token=token)
+            if timezone.now() > password_reset_token.expires_at:
+                print("time test")
+                messages.error(request, "El enlace para restablecer la contraseña ha caducado, por favor, solicite un nuevo enlace.")
+                return redirect('accounts:reset_password')
             uid = urlsafe_base64_decode(uidb64).decode()
             user = User.objects.get(id=uid)
             if default_token_generator.check_token(user, token):
@@ -111,6 +117,7 @@ class ResetPasswordView(APIView):
                         for error in errors:
                             messages.error(request, f'Error en {field}: {error}')
         except:
+            print('except error')
             pass
         return redirect(f'http://localhost:8000/reset_password/{uidb64}/{token}/')
     
@@ -126,10 +133,17 @@ class ForgotPassword(APIView):
             messages.error(request, "Nombre de usuario o email no encontrados.")
             return redirect('accounts:forgot_password')
 
-        uidb64 = urlsafe_b64encode(force_bytes(user.pk))
+        uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
         
+        print(f"uid: {uidb64}  token: {token}")
+        expires_at = timezone.now() + timedelta(hours=1)  # Establecer el tiempo límite en 24 horas
+        password_reset_token = PasswordResetToken(user=user, token=token, expires_at=expires_at)
+        password_reset_token.save()
+            
+
         link= f'http://localhost:8000/reset_password/{uidb64}/{token}/'
+        print(link)
         return render(request, 'accounts/recovery_password.html', {'link': link})
 
         # CUANDO EXISTA EL SERVIDOR SMTP

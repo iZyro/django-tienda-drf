@@ -7,11 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 
 def dashboard(request):
     user = request.user
-    if user.is_authenticated:
-        context = {
-            "user": user
-        }
-        return render(request, 'shop/dashboard.html', context)
-    else:
-        print('else dashboard')
-        return redirect('/login')
+    context = {
+        "user": user
+    }
+    return render(request, 'shop/dashboard.html', context)

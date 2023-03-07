@@ -1,75 +1,52 @@
-
-
-<!-- <form method="post">
-    {% csrf_token %}
-    
-
-{{form}}
-{% if error %}
-    <p>error</p>
-{% endif %}
-    <button type="submit">Login</button>
-</form> -->
-
-
-{% include 'base.html' %}
+{% extends 'accounts/base.html' %}
 
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ingresar</title>
-</head>
+{% block title %}Ingresar{% endblock %}
 
-<body>
-    <div>
-        <img class="mx-auto d-flex justify-content-center rounded-circle" src="{% static 'image/logo.jpg' %}" width="100" height="100" alt="Img">
-        <h5 class="mx-auto d-flex justify-content-center">Ingresa a tu cuenta de zShop</h5>
-        <br>
-    </div>
-    <div class="col-md-6 mx-auto d-flex align-items-center justify-content-center">
+{% block content %}
+<div>
+    <img class="mx-auto d-flex justify-content-center rounded-circle" src="{% static 'image/logo.jpg' %}" width="100" height="100" alt="Img">
+    <h5 class="mx-auto d-flex justify-content-center">Ingresa a tu cuenta de zShop</h5>
+    <br>
+</div>
+<div class="col-md-6 mx-auto d-flex align-items-center justify-content-center">
 
-        <form style="background-color: rgb(225, 225, 225);" class="border border-primary rounded-3 w-50 p-5" method="post">
-            {% csrf_token %}
-            {% if messages %}
-                {% for message in messages %}
-                    {% if message.tags == "error" %}
-                        <div style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; padding: .475rem .25rem !important;" class="text-center small alert alert-danger">{{message}}</div>
-                    {% else %}
-                        <div style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; padding: .475rem .25rem !important;" class="text-center small alert alert-{{message.tags}}">{{message}}</div>
-                    {% endif %}
-            {% endfor %}
-            {% endif %}
-            
-            <div>
+    <form style="background-color: rgb(225, 225, 225);" class="border border-primary rounded-3 w-50 p-5" method="post">
+        {% csrf_token %}
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == "error" %}
+                    <div style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; padding: .475rem .25rem !important;" class="text-center small alert alert-danger">{{message}}</div>
+                {% else %}
+                    <div style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; padding: .475rem .25rem !important;" class="text-center small alert alert-{{message.tags}}">{{message}}</div>
+                {% endif %}
+        {% endfor %}
+        {% endif %}
+        
+        <div>
 
-                {% for field in form %}
+            {% for field in form %}
 
-                <div class="mb-4 form-control-sm">
-                    <label class="form-label">{{ field.label }}</label>
-                    <br>
-                    {{ field }}
-                </div>
-
-                {% endfor %}
-                <div class="d-grid grap-10">
-                    <input class="btn btn-primary" type="submit" name="Submit" value="Ingresar">
-                </div>
+            <div class="mb-4 form-control-sm">
+                <label class="form-label">{{ field.label }}</label>
                 <br>
-                <div style="font-family:Arial, Helvetica, sans-serif" class="text-center small">
-                    <p style="font-family:Arial, Helvetica, sans-serif;">¿No tienes cuenta? <a style="font-family:Arial, Helvetica, sans-serif;" href="{% url 'accounts:register' %}">Registrate aquí</a>
-                        
-                    <a href="{% url 'accounts:forgot_password' %}" style="font-family:Arial, Helvetica, sans-serif;">¿Olvidaste la contraseña?</a>
-                    </p>
-                </div>
+                {{ field }}
             </div>
-        </form>
-    </div>
-</body>
 
-</html>
+            {% endfor %}
+            <div class="d-grid grap-10">
+                <input class="btn btn-primary" type="submit" name="Submit" value="Ingresar">
+            </div>
+            <br>
+            <div style="font-family:Arial, Helvetica, sans-serif" class="text-center small">
+                <p style="font-family:Arial, Helvetica, sans-serif;">¿No tienes cuenta? <a style="font-family:Arial, Helvetica, sans-serif;" href="{% url 'accounts:register' %}">Registrate aquí</a>
+                    
+                <a href="{% url 'accounts:forgot_password' %}" style="font-family:Arial, Helvetica, sans-serif;">¿Olvidaste la contraseña?</a>
+                </p>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

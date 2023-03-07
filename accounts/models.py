@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+from django.utils import timezone
 from django.db import models
 
 # Create your models here.
@@ -16,3 +18,12 @@ class UserData(models.Model):
 
     def __str__(self):
         return self.name + " " + self.last_name 
+
+class PasswordResetToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=255, unique=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    expires_at = models.DateTimeField()
+
+    def __str__(self):
+        return f"Password reset token for {self.user.username}"
