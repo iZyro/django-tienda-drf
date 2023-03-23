@@ -1,4 +1,7 @@
 {% load static %}
+
+<link rel="stylesheet" href="{% static 'css/shop/navbar.css' %}">
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'shop:dashboard' %}">zShop</a>
@@ -9,13 +12,16 @@
                     aria-expanded="false">Categorías</a>
                 
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a href="{% url 'shop:category' category='Hogar' %}" class="dropdown-item"><i class="fas fa-home"></i> Hogar</a></li>
+                        <li><a href="{% url 'shop:category' category='Tecnología' %}" class="dropdown-item"><i class="fas fa-laptop"></i> Tecnología</a></li>
+                        <li><a href="{% url 'shop:category' category='Hogar' %}" class="dropdown-item"><i class="fas fa-tshirt"></i> Tallas grandes</a></li>
+                        <li><a href="{% url 'shop:category' category='Accesorios' %}" class="dropdown-item"><i class="fas fa-glasses"></i> Accesorios</a></li>
+                        <li><a href="{% url 'shop:category' category='Deportes' %}" class="dropdown-item"><i class="fas fa-futbol"></i> Deportes</a></li>
+                        <li><a href="{% url 'shop:category' category='Home' %}" class="dropdown-item"><i class="fas fa-baby-carriage"></i> Niños y bebés</a></li>
+                        <li><a href="{% url 'shop:category' category='Mujeres' %}" class="dropdown-item"><i class="fas fa-female"></i> Mujeres</a></li>
+                        <li><a href="{% url 'shop:category' category='Hombres' %}" class="dropdown-item"><i class="fas fa-male"></i> Hombres</a></li>
                     </ul>
+                    
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Ofertas</a>
@@ -33,9 +39,10 @@
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false"><i class="fa-solid fa-user"></i></a>
                         
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Cuenta</a></li>
+                            <li><a class="dropdown-item" href="{% url 'shop:favorite_list' %}">Favoritos</a></li>
+                            <li><a class="dropdown-item" href="#">Pagos</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

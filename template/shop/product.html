@@ -1,0 +1,58 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/shop/product.css' %}">
+
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{ product.image.url }}" class="img-fluid w-100 h-100" alt="{{ product.title }} style=" width:
+                500px; height: 500px; object-fit: cover;">
+        </div>
+        <div class="col-md-5">
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description }}</p>
+            <p>Otras características del producto:</p>
+            <ul>
+                <li>Característica 1</li>
+                <li>Característica 2</li>
+                <li>Característica 3</li>
+            </ul>
+            <p>Métodos de pago disponibles:</p>
+            <ul>
+                <li>{{product.id}}</li>
+                <li>Método 2</li>
+                <li>Método 3</li>
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <p class="h3 text-primary">${{ product.price|floatformat:2|intcomma }} <a href="{% url 'shop:favorite' product.id %}">{% if favorite %}<i class="fa-solid fa-heart"></i> {% else %}<i class="fa-regular fa-heart"></i>{% endif %}</a></p> 
+            <p><i class="fa-solid fa-truck-fast"></i> Disponible para envío inmediato.</p>
+            
+            <form method="post">
+                <div class="form-group">
+                    {% csrf_token %}
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Cantidad: </span>
+                        <input type="number" name="cantidad" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="1">
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                        <a href="" class="btn btn-success">Comprar ahora</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

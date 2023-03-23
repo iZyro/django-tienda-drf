@@ -1,0 +1,9 @@
+.rotate-left .dropdown-menu {
+    left: 1000px;
+}
+
+#card-hover:hover {
+    background-color: #004bff;
+    color: #fff;
+    transition: 0.3s;
+}

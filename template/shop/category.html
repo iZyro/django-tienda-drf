@@ -1,0 +1,33 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}{{ category }}{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div class="row">
+    <h5>Descubre</h5>
+    <hr>
+    {% for product in products %}
+        <div class="col-lg-2 col-md-3 col-sm-5">
+            <div class="card mb-3">
+                <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">${{ product.price|floatformat:2|intcomma }}</p>
+                    <a href="#" class="btn btn-primary">Buy Now</a>
+                </div>
+            </div>
+        </div>
+        {% if forloop.counter|divisibleby:5 %}
+            </div><div class="row">
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %}

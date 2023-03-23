@@ -9,7 +9,6 @@ class UserData(models.Model):
     last_name = models.CharField(max_length=100, null=True)
     username = models.CharField(max_length=100, null=True)
     email = models.CharField(max_length=100, null=True)
-    password = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=100, null=True)
     country = models.CharField(max_length=100, null=True)
     city = models.CharField(max_length=100, null=True)
@@ -26,4 +25,4 @@ class PasswordResetToken(models.Model):
     expires_at = models.DateTimeField()
 
     def __str__(self):
-        return f"Password reset token for {self.user.username}"
+        return f"Reiniciar token a: {self.user.username}"

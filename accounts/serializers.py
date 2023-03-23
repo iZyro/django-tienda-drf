@@ -59,8 +59,8 @@ class resetpasswordSerializer(serializers.Serializer):
     password=serializers.CharField(max_length=100)
 
     def save(self):
-        username=self.validated_data['username']
-        password=self.validated_data['password']
+        username = self.validated_data['username']
+        password = self.validated_data['password']
 
         if User.objects.filter(username=username).exists():
             user = User.objects.get(username=username)
@@ -68,4 +68,4 @@ class resetpasswordSerializer(serializers.Serializer):
             user.save()
             return user
         else:
-            raise serializers.ValidationError({'error':'please enter valid crendentials'})
+            raise serializers.ValidationError({'error':'Datos incorrectos'})

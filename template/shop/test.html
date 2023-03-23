@@ -1,0 +1,8 @@
+{% load static %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="image">
+    <button type="submit">Listo</button>
+</form>
+
+<img src="{% static 'image/resized_992711.jpg' %}" alt="Img" width="100" height="100">

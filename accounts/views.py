@@ -63,6 +63,9 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data) 
         if serializer.is_valid():
             user = serializer.save()
+            data = {'name': request.POST['name'], 'last_name': request.POST['last_name'], 'username': request.POST['username'], 'email': request.POST['email']}
+            user_data = UserData.objects.create(**data)
+            user_data.save()
             messages.success(request, "Te has registrado correctamente.")
             return redirect("accounts:login")
         else:
@@ -74,17 +77,18 @@ class RegisterView(APIView):
             if error_message:
                 messages.error(request, error_message[0])
                 return redirect('accounts:register')
-        form = RegisterForm(request.POST)
-        form.save()
 
 
 
         
 class Logout(APIView):
     def get(self,request, format = None):
-        user = request.user
-        if user.is_authenticated:
-            user.auth_token.delete()
+        if request.user.is_authenticated:
+            try:
+                request.user.auth_token.delete()
+            except:
+                pass
+
             logout(request)
         return redirect('accounts:login')
     
@@ -101,8 +105,7 @@ class ResetPasswordView(APIView):
         try:
             password_reset_token = PasswordResetToken.objects.get(token=token)
             if timezone.now() > password_reset_token.expires_at:
-                print("time test")
-                messages.error(request, "El enlace para restablecer la contraseña ha caducado, por favor, solicite un nuevo enlace.")
+                messages.error(request, "El enlace para restablecer la contraseña ha caducado. Por favor, solicite un nuevo enlace.") 
                 return redirect('accounts:reset_password')
             uid = urlsafe_base64_decode(uidb64).decode()
             user = User.objects.get(id=uid)
@@ -117,7 +120,6 @@ class ResetPasswordView(APIView):
                         for error in errors:
                             messages.error(request, f'Error en {field}: {error}')
         except:
-            print('except error')
             pass
         return redirect(f'http://localhost:8000/reset_password/{uidb64}/{token}/')
     

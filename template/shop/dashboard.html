@@ -1,14 +1,96 @@
 {% extends 'shop/base.html' %}
-
 {% load static %}
+{% load humanize %}
 
 {% block title %}Dashboard{% endblock %}
 
-
 {% block content %}
+<div class="container">
+    <link href="{% static 'css/litera.min.css' %}" rel="stylesheet">
 
-<h5>Bienvenido a zShop</h5>
-<p>¡Esperamos que disfrute su estadía en la tienda!</p>
-<a href="{% url 'accounts:logout' %}">Logout</a>
+    <div class="row justify-content-center">
+    
+        <div id="carouselExampleIndicators" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'image/dashboard/carousel1.jpg' %}" class="d-block w-100" alt="..." style="height: 400px; object-fit: cover;">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'image/dashboard/carousel2.jpg' %}" class="d-block w-100" alt="..." style="height: 400px; object-fit: cover;">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'image/dashboard/carousel3.jpg' %}" class="d-block w-100" alt="..." style="height: 400px; object-fit: cover;">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+        </div>
+          
+    </div>
+
+    <br>
+    
+    <div class="oferta">
+        <h1>Ofertas</h1>
+    </div>
+
+    <br>
+
+    <div class="card">
+        <div class="card-header">
+            Categorías
+        </div>
+        <div class="card-body">
+            <div class="col-md-12">
+                <div class="btn-group" role="group">
+                    <a href="{% url 'shop:category' category='Hogar' %}" class="btn btn-outline-primary"><i class="fas fa-home"></i> Hogar</a>
+                    <a href="{% url 'shop:category' category='Tecnología' %}" class="btn btn-outline-primary"><i class="fas fa-laptop"></i> Tecnología</a>
+                    <a href="{% url 'shop:category' category='Tallas grandes' %}" class="btn btn-outline-primary"><i class="fas fa-tshirt"></i> Tallas grandes</a>
+                    <a href="{% url 'shop:category' category='Accesorios' %}" class="btn btn-outline-primary"><i class="fas fa-glasses"></i> Accesorios</a>
+                    <a href="{% url 'shop:category' category='Deportes' %}" class="btn btn-outline-primary"><i class="fas fa-futbol"></i> Deportes</a>
+                    <a href="{% url 'shop:category' category='Niños y bebés' %}" class="btn btn-outline-primary"><i class="fas fa-baby-carriage"></i> Niños y bebés</a>
+                    <a href="{% url 'shop:category' category='Mujeres' %}" class="btn btn-outline-primary"><i class="fas fa-female"></i> Mujeres</a>
+                    <a href="{% url 'shop:category' category='Hombres' %}" class="btn btn-outline-primary"><i class="fas fa-male"></i> Hombres</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+        
+    <div class="row">
+        <h5>Descubre</h5>
+        <hr>
+        {% for product in products %}
+            <div class="col-lg-2 col-md-3 col-sm-5">
+                <a href="{% url 'shop:product' id=product.id %}" style="text-decoration: none;">
+                    <div class="card h-100" id="card-hover">
+                        <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">${{ product.price|floatformat:2|intcomma }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% if forloop.counter|divisibleby:5 %}
+                </div><div class="row">
+            {% endif %}
+        {% endfor %}
+</div>
+
+</div>
+
 
 {% endblock %}

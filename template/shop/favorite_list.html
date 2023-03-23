@@ -1,0 +1,37 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Favoritos{% endblock %}
+
+
+
+{% block content %}
+
+<div class="container">
+    <br>
+    <h1>Lista de favoritos</h1>
+    <hr>
+
+    <div class="row">
+        {% for favorite in favorites %}
+        <div class="col-lg-2 col-md-3 col-sm-5">
+            <a href="{% url 'shop:product' id=favorite.product.id %}" style="text-decoration: none;">
+                <div class="card h-100" id="card-hover">
+                    <img class="card-img-top img-fluid" src="{{ favorite.product.image.url }}" alt="{{ favorite.product.name }}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ favorite.product.name }}</h5>
+                        <p class="card-text">${{ favorite.product.price|floatformat:2|intcomma }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+            <div class="col-md-12">
+                <p style="font-family: Arial, Helvetica, sans-serif;">No tienes productos en tu lista de favoritos</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
