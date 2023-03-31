@@ -1,0 +1,77 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+
+{% block title %}Tu cuenta{% endblock %}
+
+
+{% block content %}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <h3>Información de usuario</h3>
+            <hr>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{user.name|title}}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{user.last_name|title}}"
+                        readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="country" class="form-label">País</label>
+                    <input type="text" class="form-control" id="country" name="country" value="{{user.country|title}}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">Ciudad</label>
+                    <input type="text" class="form-control" id="city" name="city" value="{{user.city|title}}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="address1" class="form-label">Dirección 1</label>
+                    <input type="text" class="form-control" id="address1" name="address1" value="{{user.address1|title}}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="address2" class="form-label">Dirección 2</label>
+                    <input type="text" class="form-control" id="address2" name="address2" value="{{user.address2|title}}" readonly>
+                </div>
+                <button id="edit-button" type="button" class="btn btn-primary" onclick="editInfo()">Editar</button>
+                <button id="save-button" type="submit" class="btn btn-success" disabled>Guardar</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h3>Información de contacto</h3>
+            <hr>
+            {% for message in messages %}<div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>{% endfor %}
+            <p><strong>Nombre de usuario:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Teléfono:</strong> {% if user.phone %}{{ user.phone }}{% endif %}</p>
+            <a href="{% url 'shop:edit_profile' %}" class="btn btn-info">Editar información de contacto</a>
+            <a href="{% url 'shop:reset_password' %}" class="btn btn-warning">Cambiar contraseña</a>
+        </div>
+    </div>
+
+
+    <script>
+        function editInfo() {
+            var fields = document.querySelectorAll('input[type=text]');
+            for (var i = 0; i < fields.length; i++){
+                fields[i].readOnly = false;
+            }
+            document.getElementById("save-button").disabled = false;
+            document.getElementById("edit-button").disabled = true;
+        }
+
+    </script>
+
+
+</div>
+
+{% endblock %}

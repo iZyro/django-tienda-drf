@@ -121,7 +121,7 @@ class ResetPasswordView(APIView):
                             messages.error(request, f'Error en {field}: {error}')
         except:
             pass
-        return redirect(f'http://localhost:8000/reset_password/{uidb64}/{token}/')
+        return redirect(f'http://localhost:8000/recovery_password/{uidb64}/{token}/')
     
 class ForgotPassword(APIView):
     def get(self, request):
@@ -144,7 +144,7 @@ class ForgotPassword(APIView):
         password_reset_token.save()
             
 
-        link= f'http://localhost:8000/reset_password/{uidb64}/{token}/'
+        link= f'http://localhost:8000/recovery_password/{uidb64}/{token}/'
         print(link)
         return render(request, 'accounts/recovery_password.html', {'link': link})
 

@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">Categorías</a>
                 
                     <ul class="dropdown-menu">
@@ -29,9 +29,9 @@
             </ul>
 
             <ul class="navbar-nav ml-auto my-2 my-lg-0 navbar-nav-scroll">
-                {% if user.is_authenticated %}
+                {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{% url 'shop:cart' %}" class="nav-link">
                             <i class="fa-solid fa-cart-shopping"></i>
                         </a>
                     </li>
@@ -40,13 +40,12 @@
                         aria-expanded="false"><i class="fa-solid fa-user"></i></a>
                         
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Cuenta</a></li>
+                            <li><a class="dropdown-item" href="{% url 'shop:account' %}">Cuenta</a></li>
                             <li><a class="dropdown-item" href="{% url 'shop:favorite_list' %}">Favoritos</a></li>
-                            <li><a class="dropdown-item" href="#">Pagos</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Cerrar sesión</a></li>
                         </ul>
                     </li>
 

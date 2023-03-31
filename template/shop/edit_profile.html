@@ -1,0 +1,43 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+
+{% block title %}Editar información{% endblock %}
+
+
+
+{% block content %}
+
+<div class="content my-5">
+    <div class="col-md-6 mx-auto">
+        <h1>Editar información</h1>
+        <hr>
+        
+        {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        
+        <form method="post" class="form-group">
+            {% csrf_token %}
+            <label for="username" class="form-label">Nombre de usuario: </label>
+            <input type="text" name="username" id="username" class="form-control mb-4" value="{{user.username}}">
+
+            <label for="email" class="form-label">Email:</label>
+            <input type="text" name="email" id="email" class="form-control mb-4" value="{{user.email}}"">
+
+            <label for="phone" class="form-label">Teléfono:</label>
+            <input type="text" name="phone" id="phone" class="form-control mb-4" value="{% if user.phone %}{{user.phone}}{% endif %}">
+
+            <label for="password">Contraseña: </label>
+            <input type="password" name="password" id="password" class="form-control mb-4">
+
+            <input type="submit" class="btn btn-primary" value="Guardar">
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

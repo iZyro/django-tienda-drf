@@ -54,7 +54,7 @@ class RegisterSerializer(serializers.Serializer):
         return data
     
         
-class resetpasswordSerializer(serializers.Serializer):
+class ResetPasswordSerializer(serializers.Serializer):
     username=serializers.CharField(max_length=100)
     password=serializers.CharField(max_length=100)
 

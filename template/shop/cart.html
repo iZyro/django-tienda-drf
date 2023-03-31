@@ -1,0 +1,60 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load filter %}
+
+
+{% block title %}Carrito{% endblock %}
+
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-5">Tu Carrito</h1>
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% if cart_items %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td> {{ item.product.name }}</td>
+                    <td> {{ item.quantity }}</td>
+                    <td>$ {{ item.product.price|intcomma }}</td>
+                    <td>$ {{ item.product.price|multiply:item.quantity|intcomma }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-info" href="{% url 'shop:product' id=item.product.id%}"><i class="fa-solid fa-eye"></i></a>
+                        <a class="btn btn-sm btn-danger" href="{% url 'shop:cart_remove' user=user.id id=item.id %}"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                    <td><strong>$ {{ cart_total|intcomma }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-5">
+        <a href="% url 'checkout' %}" class="btn btn-primary">Pagar</a>
+    </div>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+        Tu carrito está vacío. <a href="{% url 'shop:dashboard' %}" class="alert-link">Continuar comprando</a>.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
